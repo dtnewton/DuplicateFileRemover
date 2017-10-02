@@ -12,13 +12,13 @@ import java.io.FileInputStream;
  * Scans the user's default downloads directory for duplicate files and removes them.
  */
 public class DuplicateFileRemover {
-	
+
 	public static void main(String[] args)
 	{	
 		Path userPath = Paths.get(System.getProperty("user.home") , "Downloads");	
 		File dir = new File(userPath.toString());
 		File[] fileList = dir.listFiles();
-		
+
 		for(int i = 0; i < fileList.length; i++)
 		{			
 			//System.out.println(fileList[i]);
@@ -28,28 +28,30 @@ public class DuplicateFileRemover {
 				{
 					if(CompareFiles(fileList[i], fileList[j]))
 					{
-						
-						try{
+						try
+						{
 							System.out.println("> Duplicate Found: " + fileList[j].getName());
 							System.out.println("> Deleting...");
 							fileList[j].delete();
-						}catch (Exception e){
+						}
+						catch (Exception e)
+						{
 							e.printStackTrace();
 						}
 					}				
 				}
 			}
 		}
-		
 		System.out.println("> Finished.");
 	}
-	private static boolean CompareFiles(File file, File file2) {
-		
+	
+	private static boolean CompareFiles(File file, File file2) 
+	{
 		try
 		{
 			FileInputStream fileStream = new FileInputStream(file);
 			FileInputStream fileStream2 = new FileInputStream(file2);
-				
+
 			boolean result = true;
 			while(result == true)
 			{
@@ -64,17 +66,20 @@ public class DuplicateFileRemover {
 				if (fileb == -1)//EOF
 					break;
 			}
-			
+
 			fileStream.close();
 			fileStream2.close();
 			return result;
-			
-		}catch (FileNotFoundException e){
+
+		}
+		catch (FileNotFoundException e)
+		{
 			return false;
-		}catch (Exception e){
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
-		
 		return false;
 	}
 }
